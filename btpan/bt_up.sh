@@ -38,6 +38,7 @@ sleep 10
 # TODO: This should be more robust...
 GATEWAY=`/system/xbin/route | /system/xbin/grep default | /system/xbin/awk '{print $2}'`
 setprop dhcp.$DEVICE.dns1 $GATEWAY
+setprop net.dns1 $GATEWAY
 
 exit 0
 
