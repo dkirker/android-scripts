@@ -1,10 +1,18 @@
 #!/system/xbin/ash
 
-/system/xbin/route del -net 0.0.0.0 dev tiwlan0
+DEVICE=tiwlan0
+#DEVICE=bpn0
 
-pkill dhcpcd                                     
-/system/xbin/rm -Rf /data/misc/dhcp/dhcpcd-tiwlan0.*
+/system/xbin/route del -net 0.0.0.0 dev $DEVICE
+
+pand --killall
+
+/system/xbin/ifconfig $DEVICE down
+
+pkill dhcpcd
+/system/xbin/rm -Rf /data/misc/dhcp/dhcpcd-$DEVICE.*
 dhcpcd tiwlan0
 
 exit 0
+
 
