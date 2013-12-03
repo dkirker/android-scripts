@@ -8,17 +8,22 @@ if [ "$#" == "3" ]; then
     DEVICE=$2
 fi
 
-WAN=`/system/xbin/ifconfig | grep tiwlan0`
-if [ "$WAN" != "" ]; then
+PANHOST=00:1d:fe:7f:eb:f7                                                         
+                                                                                  
+if [ "$DEVICE" == "tiwlan0" ]; then
+	WAN=`/system/xbin/ifconfig | grep tiwlan0`
+	if [ "$WAN" != "" ]; then
         if [ "$FORCE" != "force" ]; then
                 exit 1
         fi
         ./bt_down.sh
+
+	fi
 fi
 
 pand --killall
 
-pand -c 00:1d:fe:7f:eb:f7 --role PAN --service PAN -e $DEVICE -o /system/usr/bin/bt_down.sh
+pand -c $PANHOST --role PAN --service PAN -e $DEVICE -o /system/usr/bin/bt_down.sh
 
 BTPAN=`/system/xbin/ifconfig | grep $DEVICE`
 if [ "$BTPAN" == "" ]; then
